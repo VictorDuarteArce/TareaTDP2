@@ -8,23 +8,16 @@ int main() {
     g->agregarVertice(1, 2);
     g->agregarVertice(2, 3);
 
-    Clique c(g, 4);
+    Clique *c = new Clique(g, 4);
 
     set<int> *R = new set<int>;
     set<int> *P = new set<int>;
     set<int> *X = new set<int>;
-    set<set<int>*> *C = new set<set<int>*>;
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < c->graph->V; i++) {
         P->insert(i);
     }
-    c.printGraph();
-    C = c.BK(R, P, X, C);
-    cout << "Cliques: " << endl;
-    for (auto it = C->begin(); it != C->end(); it++) {
-        for (auto it2 = (*it)->begin(); it2 != (*it)->end(); it2++) {
-            cout << *it2 << " ";
-        }
-        cout << endl;
-    }
+    c->printGraph();
+    c->BK(R, P, X);
+    c->printClique();
     return 0;
 }

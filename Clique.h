@@ -14,9 +14,11 @@ class Clique {
     public:
     Graph *graph;
     int size;
+    set<int> C; //El clique maximo
     Clique(Graph* graph, int size);
     Clique(string filename);
-    set<set<int>*>* BK(set<int> *R,set<int> *P, set<int> *X , set<set<int>*> *C );
+    void BK(set<int> *R,set<int> *P, set<int> *X);
     set<int>* neighbours(int v);
     void printGraph();
+    void printClique();
 };
