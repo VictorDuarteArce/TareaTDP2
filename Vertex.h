@@ -6,7 +6,7 @@ class Vertex{
     public:
         Vertex(int id);
         ~Vertex();
-        set<Vertex*> *neighbours;
+        multiset<Vertex*, bool(*)(const Vertex* l, const Vertex* r)> *neighbours;
         int id;
         int color;
         int grade;
@@ -14,5 +14,7 @@ class Vertex{
         void colorVertex();
         void calculateSaturation();
         void printNeighbours();
+        void actualizar();
         bool operator<(const Vertex &v) const;
+        static bool CompareByPointer(const Vertex *l, const Vertex* r);
 };

@@ -28,4 +28,4 @@ main: main.cpp Clique.o
 	g++ main.cpp Vertex.o Graph.o Clique.o -o main
 	
 clear:
-	rm -f *.o testClique testGraph main
+	rm -f *.o testClique testGraph testAVL testVertex main

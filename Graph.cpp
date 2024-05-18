@@ -3,6 +3,32 @@
 Graph::Graph(int V){
     this->V = V;
     this->VList = (Vertex**)malloc(sizeof(Vertex*) * V);
+    for(int i = 0; i < V; i++){
+        VList[i] = NULL;
+    }
+    this->colors = 0;
+}
+
+Graph::Graph(string filename){
+    ifstream file(filename);
+    string line;
+    getline(file, line);
+    istringstream iss(line);
+    iss >> V;
+    this->V = V;
+    this->VList = (Vertex**)malloc(sizeof(Vertex*) * V);
+    for(int i = 0; i < V; i++){
+        VList[i] = NULL;
+    }
+    this->colors = 0;
+    int i = 0;
+    while (getline(file, line)){
+        iss = istringstream(line);
+        int j = 0;
+        iss >> i >> j;
+        this->agregarVertice(i, j);
+    }
+    file.close();
 }
 
 Graph::~Graph(){
@@ -48,12 +74,17 @@ void Graph::colorearGrafo(){
         x->calculateSaturation();
     }
     for(auto x: vertices){
+        if(x->color > this->colors){
+            this->colors = x->color;
+        }
+    }
+    for(auto x: vertices){
         x->calculateSaturation();
     }
 }
 
 void Graph::printGraph(){
-    cout << "Graph with " << V << " vertex" << endl;
+    cout << "Graph with " << V << " vertices, and: " << this->colors << " colors." << endl;
     for(int i = 0; i < V; i++){
         cout << "head: " << i << 
         " Grade: " << VList[i]->grade << 

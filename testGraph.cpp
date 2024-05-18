@@ -1,11 +1,11 @@
 #include "Graph.h"
-
+/*
+    0
+   / \
+  1---2--3
+*/
 int main(){
-    Graph *g = new Graph(4);
-    g->agregarVertice(0, 1);
-    g->agregarVertice(0, 2);
-    g->agregarVertice(1, 2);
-    g->agregarVertice(2, 3);
+    Graph* g = new Graph("graph2.txt");
     g->colorearGrafo();
     g->printGraph();
     g->~Graph();
