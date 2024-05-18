@@ -13,7 +13,7 @@ class Graph{
         Graph(int V);
         Graph(string filename);
         ~Graph();
-        void agregarVertice(int v, int w);
+        void agregarArista(int v, int w);
         void colorearGrafo();
         void printGraph();
 };

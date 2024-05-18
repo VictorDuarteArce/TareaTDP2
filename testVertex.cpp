@@ -37,7 +37,7 @@ int main(){
     cout << "\nVertex 4: " << y->color << " Saturation: " << y->saturation << endl;
     y->printNeighbours();
     cout << endl;
-    multiset<Vertex*, bool(*)(const Vertex*, const Vertex*)> vertices(Vertex::CompareByPointer);
+    multiset<Vertex*, bool(*)(const Vertex*, const Vertex*)> vertices(Vertex::CompareBySaturation);
     vertices.insert(v);
     vertices.insert(w);
     vertices.insert(x);

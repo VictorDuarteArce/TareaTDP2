@@ -26,7 +26,7 @@ Graph::Graph(string filename){
         iss = istringstream(line);
         int j = 0;
         iss >> i >> j;
-        this->agregarVertice(i, j);
+        this->agregarArista(i, j);
     }
     file.close();
 }
@@ -38,7 +38,7 @@ Graph::~Graph(){
     delete VList;
 }
 
-void Graph::agregarVertice(int v, int w){
+void Graph::agregarArista(int v, int w){
     if(VList[v] == NULL && VList[w] == NULL){
         Vertex* v1 = new Vertex(v);
         VList[v] = v1;
@@ -65,12 +65,13 @@ void Graph::agregarVertice(int v, int w){
 }
 
 void Graph::colorearGrafo(){
-    set<Vertex*> vertices;
+    multiset<Vertex*, bool(*)(const Vertex*, const Vertex*)> vertices(Vertex::CompareBySaturation);
     for(int i = 0; i < this->V; i++){
         vertices.insert(this->VList[i]);
     }
     for(auto x: vertices){
         x->colorVertex();
+        x->actualizar();
         x->calculateSaturation();
     }
     for(auto x: vertices){
@@ -78,6 +79,7 @@ void Graph::colorearGrafo(){
             this->colors = x->color;
         }
     }
+    this->colors++;
     for(auto x: vertices){
         x->calculateSaturation();
     }

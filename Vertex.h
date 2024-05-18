@@ -16,5 +16,7 @@ class Vertex{
         void printNeighbours();
         void actualizar();
         bool operator<(const Vertex &v) const;
-        static bool CompareByPointer(const Vertex *l, const Vertex* r);
+        static bool CompareBySaturation(const Vertex *l, const Vertex* r);
+        static bool CompareById(const Vertex *l, const Vertex* r);
+
 };

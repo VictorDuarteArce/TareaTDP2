@@ -2,7 +2,7 @@
 
 Vertex::Vertex(int id){
     this->id = id;
-    this->neighbours = new multiset<Vertex*, bool(*)(const Vertex*, const Vertex*)>(this->CompareByPointer); //Esto es del paradigma funcionaaaaaaaaaal
+    this->neighbours = new multiset<Vertex*, bool(*)(const Vertex*, const Vertex*)>(this->CompareBySaturation); //Esto es del paradigma funcionaaaaaaaaaal
     this->grade = 0;
     this->color = -1;
     this->saturation = 0;
@@ -69,10 +69,14 @@ bool Vertex::operator<(const Vertex &v) const{ //Solucionar con paradigma funcio
     return this->saturation > v.saturation;
 }
 
-bool Vertex::CompareByPointer(const Vertex *l, const Vertex* r){
+bool Vertex::CompareBySaturation(const Vertex *l, const Vertex* r){
     /*if(l == nullptr || r == nullptr){
         return false;
     }*/
     //cout << "Comparing: " << l->saturation << " with " << r->saturation << endl;
     return l->saturation > r->saturation;
+}
+
+bool Vertex::CompareById(const Vertex *l, const Vertex* r){
+    return l->id < r->id;
 }

@@ -5,19 +5,18 @@ int main(){
     cout << "Ingrese el nombre del archivo: ";
     cin >> filename;
     Clique *c = new Clique(filename);
+    c->graph->colorearGrafo();
     
-    set<int> *R = new set<int>;
-    set<int> *P = new set<int>;
-    set<int> *X = new set<int>;
+    set<Vertex*, bool(*)(const Vertex*, const Vertex*)> *R = new set<Vertex*, bool(*)(const Vertex*, const Vertex*)>(Vertex::CompareById);
+    set<Vertex*, bool(*)(const Vertex*, const Vertex*)> *P = new set<Vertex*, bool(*)(const Vertex*, const Vertex*)>(Vertex::CompareById);
+    set<Vertex*, bool(*)(const Vertex*, const Vertex*)> *X = new set<Vertex*, bool(*)(const Vertex*, const Vertex*)>(Vertex::CompareById);
     for(int i=0;i<c->size;i++){
-        P->insert(i);
+        Vertex* v = new Vertex(i);
+        P->insert(v);
     }
     c->printGraph();
     c->BK(R,P,X);
-    cout << "Clique máximo: " << endl;
-    for(auto v: c->C){
-        cout<< v << " ";
-    }
+    c->printClique();
     cout << endl;
     return 0;
 }
