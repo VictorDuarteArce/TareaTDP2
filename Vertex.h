@@ -11,12 +11,15 @@ class Vertex{
         int color;
         int grade;
         int saturation;
+        float heuristic;
         void colorVertex();
         void calculateSaturation();
         void printNeighbours();
         void actualizar();
+        void calculateHeuristic();
         bool operator<(const Vertex &v) const;
         static bool CompareBySaturation(const Vertex *l, const Vertex* r);
         static bool CompareById(const Vertex *l, const Vertex* r);
+        static bool CompareByHeuristic(const Vertex *l, const Vertex* r);
 
 };

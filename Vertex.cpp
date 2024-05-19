@@ -65,6 +65,37 @@ void Vertex::actualizar(){ //O(n) en tiempo, O(n) en espacio
     delete[] vertices;
 }
 
+void Vertex::calculateHeuristic(){
+    for(auto x: *this->neighbours){
+        if(x->color != this->color){
+            this->heuristic += 2.0;
+        }
+    }
+    this->heuristic += this->grade;
+}
+
+void Vertex::calculateHeuristic(Vertex* v, multiset<Vertex*, bool(*)(const Vertex*, const Vertex*)> *P){ 
+    //P podría ser una cola de prioridad, pero en ese caso habría que hacer un update de la cola de prioridad, entonces no sé si eso es más dificil que hacer un update de un multiset
+    for(auto x: *this->neighbours){
+        if(x->id == v->id) v->heuristic += 1000000;
+    }
+    //Actualizar P
+    int i = 0;
+    Vertex** vertices = new Vertex*[P->size()];
+    for(auto it = P->begin(); it != P->end(); it++){
+        vertices[i] = *it;
+        //cout << "Putting vertex " << vertices[i]->id << " in the array" << endl;
+        i++;
+    }
+    int n = i;
+    P->clear();
+    //cout << "Remaking de multiset..."<< endl;
+    for(i = 0; i < n; i++){
+        if(vertices[i] == nullptr) continue;
+        P->insert(vertices[i]);
+    }
+    delete[] vertices;
+}
 bool Vertex::operator<(const Vertex &v) const{ //Solucionar con paradigma funcional
     return this->saturation > v.saturation;
 }
@@ -79,4 +110,8 @@ bool Vertex::CompareBySaturation(const Vertex *l, const Vertex* r){
 
 bool Vertex::CompareById(const Vertex *l, const Vertex* r){
     return l->id < r->id;
+}
+
+bool Vertex::CompareByHeuristic(const Vertex *l, const Vertex* r){
+    return l->heuristic > r->heuristic;
 }

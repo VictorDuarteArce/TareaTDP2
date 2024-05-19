@@ -19,8 +19,11 @@ class Clique {
     Clique(string filename);
     void BK(
         set<Vertex*, bool(*)(const Vertex*, const Vertex*)> *R,
-        set<Vertex*, bool(*)(const Vertex*, const Vertex*)> *P, 
+        multiset<Vertex*, bool(*)(const Vertex*, const Vertex*)> *P, 
         set<Vertex*, bool(*)(const Vertex*, const Vertex*)> *X);
+    multiset<Vertex*, bool(*)(const Vertex*, const Vertex*)> *interseccion(
+        multiset<Vertex*, bool(*)(const Vertex*, const Vertex*)> *P,
+        multiset<Vertex*, bool(*)(const Vertex*, const Vertex*)> *vecinos);
     set<Vertex*, bool(*)(const Vertex*, const Vertex*)> *interseccion(
         set<Vertex*, bool(*)(const Vertex*, const Vertex*)> *P,
         multiset<Vertex*, bool(*)(const Vertex*, const Vertex*)> *vecinos);
