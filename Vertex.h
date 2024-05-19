@@ -17,7 +17,8 @@ class Vertex{
         void printNeighbours();
         void actualizar();
         void calculateHeuristic();
-        bool operator<(const Vertex &v) const;
+        void calculateHeuristic(Vertex* v, multiset<Vertex*, bool(*)(const Vertex* l, const Vertex* r)> *C);
+        
         static bool CompareBySaturation(const Vertex *l, const Vertex* r);
         static bool CompareById(const Vertex *l, const Vertex* r);
         static bool CompareByHeuristic(const Vertex *l, const Vertex* r);

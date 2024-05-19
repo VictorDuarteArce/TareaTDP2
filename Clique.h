@@ -3,6 +3,7 @@
 #include <iterator>
 #include <vector>
 #include <set>
+#include <unordered_set>
 #include "Graph.h"
 #include <fstream>
 #include <sstream>

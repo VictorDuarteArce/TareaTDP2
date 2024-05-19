@@ -6,6 +6,7 @@ Vertex::Vertex(int id){
     this->grade = 0;
     this->color = -1;
     this->saturation = 0;
+    this->heuristic = 0.0;
 }
 
 Vertex::~Vertex(){
@@ -66,11 +67,13 @@ void Vertex::actualizar(){ //O(n) en tiempo, O(n) en espacio
 }
 
 void Vertex::calculateHeuristic(){
-    for(auto x: *this->neighbours){
+    /*for(auto x: *this->neighbours){
         if(x->color != this->color){
-            this->heuristic += 2.0;
+            this->heuristic += 0.1;
+            //cout << "Vertex " << this->id << " has a neighbour with a different color" << endl;
+            //cout << "Heuristic: " << this->heuristic << endl;
         }
-    }
+    }*/
     this->heuristic += this->grade;
 }
 
@@ -96,22 +99,25 @@ void Vertex::calculateHeuristic(Vertex* v, multiset<Vertex*, bool(*)(const Verte
     }
     delete[] vertices;
 }
-bool Vertex::operator<(const Vertex &v) const{ //Solucionar con paradigma funcional
-    return this->saturation > v.saturation;
-}
 
 bool Vertex::CompareBySaturation(const Vertex *l, const Vertex* r){
-    /*if(l == nullptr || r == nullptr){
+    if(l == nullptr || r == nullptr){
         return false;
-    }*/
+    }
     //cout << "Comparing: " << l->saturation << " with " << r->saturation << endl;
     return l->saturation > r->saturation;
 }
 
 bool Vertex::CompareById(const Vertex *l, const Vertex* r){
+    if(l == nullptr || r == nullptr){
+        return false;
+    }
     return l->id < r->id;
 }
 
 bool Vertex::CompareByHeuristic(const Vertex *l, const Vertex* r){
-    return l->heuristic > r->heuristic;
+    if(l == nullptr || r == nullptr){
+        return false;
+    }
+    return l->heuristic < r->heuristic;
 }

@@ -16,9 +16,12 @@ int main() {
     P = new multiset<Vertex*, bool(*)(const Vertex*, const Vertex*)>(Vertex::CompareByHeuristic);
     set<Vertex*, bool(*)(const Vertex*, const Vertex*)> *X = new set<Vertex*, bool(*)(const Vertex*, const Vertex*)>(Vertex::CompareById);
     for (int i = 0; i < c->graph->V; i++) {
-        Vertex* v = new Vertex(i);
-        cout << "Insertando " << v->id << endl;
-        P->insert(v);
+        c->graph->VList[i]->calculateHeuristic();
+        P->insert(c->graph->VList[i]);
+        cout << "Vertex: " << c->graph->VList[i]->id << " Heuristic: " << c->graph->VList[i]->heuristic << endl;
+    }
+    for(auto x: *P){
+        cout << "Vertex: " << x->id << " Heuristic: " << x->heuristic << endl;
     }
     c->printGraph();
     c->BK(R, P, X);

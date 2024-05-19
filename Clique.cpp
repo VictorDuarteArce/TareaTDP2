@@ -24,83 +24,54 @@ Clique::Clique(string filename){
     }
     file.close();
 }
-
+//int i = 0;
 void Clique::BK(set<Vertex*, bool(*)(const Vertex*, const Vertex*)> *R,
                 multiset<Vertex*, bool(*)(const Vertex*, const Vertex*)> *P, 
                 set<Vertex*, bool(*)(const Vertex*, const Vertex*)> *X){
     if(P->empty() && X->empty()){
         if(R->size() > C.size()){
             this->C = *R;
-            return;
         }
+        return;
     }
-
     multiset<Vertex*, bool(*)(const Vertex*, const Vertex*)> *
     P_new= new multiset<Vertex*, bool(*)(const Vertex*, const Vertex*)>(*P); //Esto debe poder intersectarse fácilmente, o sea tener un fácil acceso a datos, podría ser una hash de sets
     set<Vertex*, bool(*)(const Vertex*, const Vertex*)> *
     X_new= new set<Vertex*, bool(*)(const Vertex*, const Vertex*)>(*X); // Esto también debe poder intersectarse fácilmente, o sea tener un fácil acceso a datos, podría ser un hash de sets
-    multiset<Vertex*, bool(*)(const Vertex*, const Vertex*)> *
-    P_iter = new multiset<Vertex*, bool(*)(const Vertex*, const Vertex*)>(*P); //No hace falta que sea un multiset, podría ser un arreglo nada más
-    /*cout << "P_iter: ";
-    for(auto x: *P_iter){
-        cout << x->id << " ";
-    }*/
-    //putchar('\n');
-    /*cout << "R: ";
-    for(auto x: *R){
-        cout << x << " ";
+    
+    Vertex** P_iter = new Vertex*[P->size()]; // Esto es para poder iterar sobre P
+    int n = 0;
+    for(auto it = P->begin(); it != P->end(); it++){
+        P_iter[n] = *it;
+        n++;
     }
-    putchar('\n');*/
-    for(auto v : *P_iter){
-        //cout << "Iterando sobre P con v = " << v->id << endl;
+    /*Vertex* pivot = P_iter[n-1];
+    cout << "Pivot: " << pivot->id << " Heuristic: " << pivot->heuristic << endl;*/
+    for(int i = 0; i < n; i++){
+        Vertex* v = P_iter[i];
         set<Vertex*, bool(*)(const Vertex*, const Vertex*)> *
         R1 = new set<Vertex*, bool(*)(const Vertex*, const Vertex*)>(*R);
         R1->insert(v); // esto puede ser un set para insertarse sin repeticiones, es necesario que los elementos de este conjunto no se repitan
-
         multiset<Vertex*, bool(*)(const Vertex*, const Vertex*)> *
         vecinos = this->graph->VList[v->id]->neighbours; // vecinos de v ya implementados, solamente se copia la referencia
         multiset<Vertex*, bool(*)(const Vertex*, const Vertex*)>*
         P1 = this->interseccion(P_new, vecinos); // P1 debe poder copiarse rápidamente, podría ser un hash de sets
-        /*cout << "P_new: ";
-        for(auto x: *P_new){
-            cout << x->id << " ";
-        }
-        putchar('\n');
-        cout << "Vecinos de " << v->id << ": ";
-        for(auto x: *vecinos){
-            cout << x->id << " ";
-        }
-        putchar('\n');
-        cout << "P1: ";
-        for(auto x: *P1){
-            cout << x->id << " ";
-        }
-        putchar('\n');*/
+        
         set<Vertex*, bool(*)(const Vertex*, const Vertex*)>*
         X1 = this->interseccion(X_new, vecinos); // esto debe poder copiarse rápidamente, podría ser un hash de sets
-        /*cout << "X_new: ";
-        for(auto x: *X_new){
-            cout << x->id << " ";
-        }
-        putchar('\n');
-        cout << "Vecinos de " << v->id << ": ";
-        for(auto x: *vecinos){
-            cout << x->id << " ";
-        }
-        putchar('\n');
-        cout << "X1: ";
-        for(auto x: *X1){
-            cout << x->id << " ";
-        }
-        putchar('\n');*/
-        if(R1->size() + P1->size() > C.size()){
-            //cout << "Llamado recursivo con V = " << v->id << endl;
-            this->BK(R1,P1,X1);
-            //cout << "Fin llamado recursivo con V = " << v->id << endl;
-        }
-        auto it = find_if(P_new->begin(), P_new->end(), [v](Vertex* vertex) { 
+        
+        /*auto it1 = find_if(pivot->neighbours->begin(), pivot->neighbours->end(), [v](Vertex* vertex) { 
+            if(v == nullptr || vertex == nullptr) return false;
             return v->id == vertex->id;
-        });
+        });*/
+        if(R1->size() + P1->size() > C.size() /*&& it1 == pivot->neighbours->end()*/){
+            this->BK(R1,P1,X1);
+        }
+        auto it = find_if(P_new->begin(), P_new->end(), 
+        [v](Vertex* vertex) {
+            if(v == nullptr || vertex == nullptr) return false;
+            return v->id == vertex->id;
+            });
         if(it != P_new->end()){
             P_new->erase(it);
         }
