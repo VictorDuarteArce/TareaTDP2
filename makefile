@@ -24,8 +24,11 @@ testVertex: ./tests/Vertex.cpp Vertex.o
 testHash: Vertex.o Hash.o ./tests/testHash.cpp
 	g++ Hash.o -o testHash
 
+generator: ./generator.cpp
+	g++ ./generator.cpp -o generator
+
 main: main.cpp Clique.o
 	g++ main.cpp Vertex.o Graph.o Clique.o -o main
 	
 clear:
-	rm -f *.o testClique testGraph testGraph testVertex testHash main
+	rm -f *.o testClique testGraph testGraph testVertex testHash generator main

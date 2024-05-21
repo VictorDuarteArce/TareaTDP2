@@ -48,10 +48,10 @@ void Clique::BK(set<Vertex*, bool(*)(const Vertex*, const Vertex*)> *R,
         P_iter->push_back(*it);
     }
     Vertex* pivot = P_iter->back();
-    cout << "Pivot: " << pivot->id << " Heuristic: " << pivot->heuristic << endl;
+    //cout << "Pivot: " << pivot->id << " Heuristic: " << pivot->heuristic << endl;
     P_iter = resta(P_iter, pivot->neighbours);
     pivot = *P_iter->begin();
-    cout << "Pivot: " << pivot->id << " Heuristic: " << pivot->heuristic << endl;
+    //cout << "Pivot: " << pivot->id << " Heuristic: " << pivot->heuristic << endl;
     P_iter = resta(P_iter, pivot->neighbours);
     multiset<Vertex*, bool(*)(const Vertex*, const Vertex*)> *
     P_new= new multiset<Vertex*, bool(*)(const Vertex*, const Vertex*)>(*P); //Esto debe poder intersectarse fácilmente, o sea tener un fácil acceso a datos, podría ser una hash de sets
@@ -59,7 +59,7 @@ void Clique::BK(set<Vertex*, bool(*)(const Vertex*, const Vertex*)> *R,
     X_new= new set<Vertex*, bool(*)(const Vertex*, const Vertex*)>(*X); // Esto también debe poder intersectarse fácilmente, o sea tener un fácil acceso a datos, podría ser un hash de sets
     
     for(auto iter = P_iter->begin(); iter != P_iter->end(); iter++){
-        cout << "Iterando sobre: " << (*iter)->id << endl;
+        //cout << "Iterando sobre: " << (*iter)->id << endl;
         Vertex* v = (*iter);
         set<Vertex*, bool(*)(const Vertex*, const Vertex*)> *
         R1 = new set<Vertex*, bool(*)(const Vertex*, const Vertex*)>(*R);
@@ -72,8 +72,7 @@ void Clique::BK(set<Vertex*, bool(*)(const Vertex*, const Vertex*)> *R,
         set<Vertex*, bool(*)(const Vertex*, const Vertex*)>*
         X1 = this->interseccion(X_new, vecinos); // esto debe poder copiarse rápidamente, podría ser un hash de sets
         
-        
-        cout << "R1: ";
+        /*cout << "R1: ";
         for(auto x: *R1){
             cout << x->id << " ";
         }
@@ -87,11 +86,11 @@ void Clique::BK(set<Vertex*, bool(*)(const Vertex*, const Vertex*)> *R,
         for(auto x: *X1){
             cout << x->id << " ";
         }
-        cout << endl;
+        cout << endl;*/
         if(R1->size() + P1->size() > C.size()){
-            cout << "Llamado recursivo con V = " << v->id << endl;
+            //cout << "Llamado recursivo con V = " << v->id << endl;
             this->BK(R1,P1,X1);
-            cout << "Fin de llamado recursivo con V = " << v->id << endl;
+            //cout << "Fin de llamado recursivo con V = " << v->id << endl;
         }
         auto it = find_if(P_new->begin(), P_new->end(), [v](Vertex* vertex) { // función lambda para que compare a los vértices por id
             if(v == nullptr || vertex == nullptr) return false;

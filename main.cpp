@@ -28,9 +28,9 @@ int main(int argc, char *argv[]){
         P->insert(v);
     }
     c->printGraph();
-    for(auto x: *P){
+    /*for(auto x: *P){
         cout << "Vertex: " << x->id << " Heuristic: " << x->heuristic << endl;
-    }
+    }*/
     clock_t start = clock();
     c->BK(R,P,X);
     clock_t end = clock();
