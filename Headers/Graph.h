@@ -2,7 +2,7 @@
 #include <set>
 #include <fstream>
 #include <sstream>
-#include "Vertex.h"
+#include "./Vertex.h"
 using namespace std;
 
 class Graph{

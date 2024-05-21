@@ -1,4 +1,4 @@
-#include "Vertex.h"
+#include "../Headers/Vertex.h"
 
 Vertex::Vertex(int id){
     this->id = id;

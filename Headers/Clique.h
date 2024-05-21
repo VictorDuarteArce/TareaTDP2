@@ -3,8 +3,7 @@
 #include <iterator>
 #include <vector>
 #include <set>
-#include <unordered_set>
-#include "Graph.h"
+#include "./Graph.h"
 #include <fstream>
 #include <sstream>
 
@@ -28,6 +27,7 @@ class Clique {
     set<Vertex*, bool(*)(const Vertex*, const Vertex*)> *interseccion(
         set<Vertex*, bool(*)(const Vertex*, const Vertex*)> *P,
         multiset<Vertex*, bool(*)(const Vertex*, const Vertex*)> *vecinos);
+    vector<Vertex*>* resta(vector<Vertex*>* P, multiset<Vertex*, bool(*)(const Vertex*, const Vertex*)>*pivotNeighbours);
     void printGraph();
     void printClique();
 };

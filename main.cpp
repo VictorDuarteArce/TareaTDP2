@@ -1,14 +1,14 @@
-#include "Clique.h"
+#include "./Headers/Clique.h"
 #include <ctime>
 
 
 int main(int argc, char *argv[]){
     Clique *c;
-    if(argc != 2){
-    string filename;
-    cout << "Ingrese el nombre del archivo: ";
-    cin >> filename;
-    c = new Clique(filename);
+    if(argc < 2){
+        string filename;
+        cout << "Ingrese el nombre del archivo: ";
+        cin >> filename;
+        c = new Clique(filename);
     }else{
         c = new Clique(argv[1]);
     }

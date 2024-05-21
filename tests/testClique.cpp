@@ -1,4 +1,4 @@
-#include "Clique.h"
+#include "../Headers/Clique.h"
 
 int main() {
 

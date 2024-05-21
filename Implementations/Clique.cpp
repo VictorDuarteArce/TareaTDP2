@@ -1,4 +1,4 @@
-#include "Clique.h"
+#include "../Headers/Clique.h"
 
 
 Clique::Clique(Graph* g, int size){
@@ -28,27 +28,39 @@ Clique::Clique(string filename){
 void Clique::BK(set<Vertex*, bool(*)(const Vertex*, const Vertex*)> *R,
                 multiset<Vertex*, bool(*)(const Vertex*, const Vertex*)> *P, 
                 set<Vertex*, bool(*)(const Vertex*, const Vertex*)> *X){
+    
     if(P->empty() && X->empty()){
+        cout << "Clique encontrada" << endl;
+        
         if(R->size() > C.size()){
             this->C = *R;
         }
+        delete R;
+        delete P;
+        delete X;
         return;
     }
+    
+
+    vector<Vertex*>* P_iter = new vector<Vertex*>(); // Esto es para poder iterar sobre P
+    
+    for(auto it = P->begin(); it != P->end(); it++){
+        P_iter->push_back(*it);
+    }
+    Vertex* pivot = P_iter->back();
+    cout << "Pivot: " << pivot->id << " Heuristic: " << pivot->heuristic << endl;
+    P_iter = resta(P_iter, pivot->neighbours);
+    pivot = *P_iter->begin();
+    cout << "Pivot: " << pivot->id << " Heuristic: " << pivot->heuristic << endl;
+    P_iter = resta(P_iter, pivot->neighbours);
     multiset<Vertex*, bool(*)(const Vertex*, const Vertex*)> *
     P_new= new multiset<Vertex*, bool(*)(const Vertex*, const Vertex*)>(*P); //Esto debe poder intersectarse fácilmente, o sea tener un fácil acceso a datos, podría ser una hash de sets
     set<Vertex*, bool(*)(const Vertex*, const Vertex*)> *
     X_new= new set<Vertex*, bool(*)(const Vertex*, const Vertex*)>(*X); // Esto también debe poder intersectarse fácilmente, o sea tener un fácil acceso a datos, podría ser un hash de sets
     
-    Vertex** P_iter = new Vertex*[P->size()]; // Esto es para poder iterar sobre P
-    int n = 0;
-    for(auto it = P->begin(); it != P->end(); it++){
-        P_iter[n] = *it;
-        n++;
-    }
-    /*Vertex* pivot = P_iter[n-1];
-    cout << "Pivot: " << pivot->id << " Heuristic: " << pivot->heuristic << endl;*/
-    for(int i = 0; i < n; i++){
-        Vertex* v = P_iter[i];
+    for(auto iter = P_iter->begin(); iter != P_iter->end(); iter++){
+        cout << "Iterando sobre: " << (*iter)->id << endl;
+        Vertex* v = (*iter);
         set<Vertex*, bool(*)(const Vertex*, const Vertex*)> *
         R1 = new set<Vertex*, bool(*)(const Vertex*, const Vertex*)>(*R);
         R1->insert(v); // esto puede ser un set para insertarse sin repeticiones, es necesario que los elementos de este conjunto no se repitan
@@ -60,15 +72,28 @@ void Clique::BK(set<Vertex*, bool(*)(const Vertex*, const Vertex*)> *R,
         set<Vertex*, bool(*)(const Vertex*, const Vertex*)>*
         X1 = this->interseccion(X_new, vecinos); // esto debe poder copiarse rápidamente, podría ser un hash de sets
         
-        /*auto it1 = find_if(pivot->neighbours->begin(), pivot->neighbours->end(), [v](Vertex* vertex) { 
-            if(v == nullptr || vertex == nullptr) return false;
-            return v->id == vertex->id;
-        });*/
-        if(R1->size() + P1->size() > C.size() /*&& it1 == pivot->neighbours->end()*/){
-            this->BK(R1,P1,X1);
+        
+        cout << "R1: ";
+        for(auto x: *R1){
+            cout << x->id << " ";
         }
-        auto it = find_if(P_new->begin(), P_new->end(), 
-        [v](Vertex* vertex) {
+        cout << endl;
+        cout << "P1: ";
+        for(auto x: *P1){
+            cout << x->id << " ";
+        }
+        cout << endl;
+        cout << "X1: ";
+        for(auto x: *X1){
+            cout << x->id << " ";
+        }
+        cout << endl;
+        if(R1->size() + P1->size() > C.size()){
+            cout << "Llamado recursivo con V = " << v->id << endl;
+            this->BK(R1,P1,X1);
+            cout << "Fin de llamado recursivo con V = " << v->id << endl;
+        }
+        auto it = find_if(P_new->begin(), P_new->end(), [v](Vertex* vertex) { // función lambda para que compare a los vértices por id
             if(v == nullptr || vertex == nullptr) return false;
             return v->id == vertex->id;
             });
@@ -123,4 +148,21 @@ set<Vertex*, bool(*)(const Vertex*, const Vertex*)> *Clique::interseccion(
         }
     }
     return P1;
+}
+
+vector<Vertex*>* Clique::resta(vector<Vertex*>* P, multiset<Vertex*, bool(*)(const Vertex*, const Vertex*)>* pivotNeighbours){
+    if(P->empty()) return P;
+    if(pivotNeighbours->empty()) return P;
+    if(P == nullptr) return nullptr;
+    if(pivotNeighbours == nullptr) return P;
+    vector<Vertex*>* P_new = new vector<Vertex*>();
+    for(auto x: *P){
+        auto it = find_if(pivotNeighbours->begin(), pivotNeighbours->end(), [x](Vertex* vertex) { // función lambda para que compare a los vértices por id
+            return x->id == vertex->id;
+        });
+        if(it == pivotNeighbours->end()){
+            P_new->push_back(x);
+        }
+    }
+    return P_new;
 }

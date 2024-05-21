@@ -1,4 +1,4 @@
-#include "Graph.h"
+#include "../Headers/Graph.h"
 
 Graph::Graph(int V){
     this->V = V;
