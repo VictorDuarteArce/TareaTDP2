@@ -13,28 +13,28 @@ int main(){
     Vertex* x = new Vertex(3);
     Vertex* y = new Vertex(4);
     //cout << "Inserting neighbours" << endl;
-    v->neighbours->insert(w);
-    w->neighbours->insert(v);
-    v->neighbours->insert(x);
-    x->neighbours->insert(v);
-    x->neighbours->insert(w);
-    w->neighbours->insert(x);
-    x->neighbours->insert(y);
-    y->neighbours->insert(x);
-    v->neighbours->insert(y);
-    y->neighbours->insert(v);
+    v->getNeighbours()->insert(w);
+    w->getNeighbours()->insert(v);
+    v->getNeighbours()->insert(x);
+    x->getNeighbours()->insert(v);
+    x->getNeighbours()->insert(w);
+    w->getNeighbours()->insert(x);
+    x->getNeighbours()->insert(y);
+    y->getNeighbours()->insert(x);
+    v->getNeighbours()->insert(y);
+    y->getNeighbours()->insert(v);
     v->colorVertex();
     w->colorVertex();
     x->colorVertex();
     y->colorVertex();
 
-    cout << "Vertex 1: " << v->color << " Saturation: " << v->saturation << endl;
+    cout << "Vertex 1: " << v->getColor() << " Saturation: " << v->getSaturation() << endl;
     v->printNeighbours();
-    cout << "\nVertex 2: " << w->color << " Saturation: " << w->saturation << endl;
+    cout << "\nVertex 2: " << w->getColor() << " Saturation: " << w->getSaturation() << endl;
     w->printNeighbours();
-    cout << "\nVertex 3: " << x->color << " Saturation: " << x->saturation << endl;
+    cout << "\nVertex 3: " << x->getColor() << " Saturation: " << x->getSaturation() << endl;
     x->printNeighbours();
-    cout << "\nVertex 4: " << y->color << " Saturation: " << y->saturation << endl;
+    cout << "\nVertex 4: " << y->getColor() << " Saturation: " << y->getSaturation() << endl;
     y->printNeighbours();
     cout << endl;
     multiset<Vertex*, bool(*)(const Vertex*, const Vertex*)> vertices(Vertex::CompareBySaturation);
@@ -42,9 +42,8 @@ int main(){
     vertices.insert(w);
     vertices.insert(x);
     vertices.insert(y);
-    for(auto it = vertices.begin(); it != vertices.end(); it++){
-        cout << "Vertex: " << (*it)->id << " Saturation: " << (*it)->saturation << endl;
-    }
+    for(auto it = vertices.begin(); it != vertices.end(); it++) 
+        cout << "Color of Vertex " << (*it)->getId() << ": " << (*it)->getColor() << " Saturation: " << (*it)->getSaturation() << endl;
     cout << endl;
     return 0;
 }

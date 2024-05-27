@@ -12,9 +12,9 @@ int main(int argc, char *argv[]){
     }else{
         c = new Clique(argv[1]);
     }
-    c->graph->colorearGrafo();
-    for(int i = 0; i < c->size; i++){
-        c->graph->VList[i]->calculateHeuristic();
+    c->getGraph()->colorearGrafo();
+    for(int i = 0; i < c->getSize(); i++){
+        c->getGraph()->getVertex(i)->calculateHeuristic();
     }
     cout << "Heuristicas calculadas" << endl;
     set<Vertex*, bool(*)(const Vertex*, const Vertex*)> *
@@ -23,14 +23,12 @@ int main(int argc, char *argv[]){
     P = new multiset<Vertex*, bool(*)(const Vertex*, const Vertex*)>(Vertex::CompareByHeuristic);
     set<Vertex*, bool(*)(const Vertex*, const Vertex*)> *
     X = new set<Vertex*, bool(*)(const Vertex*, const Vertex*)>(Vertex::CompareById);
-    for(int i=0;i<c->size;i++){
-        Vertex* v = c->graph->VList[i];
+    for(int i=0;i<c->getSize();i++){
+        Vertex* v = c->getGraph()->getVertex(i);
         P->insert(v);
     }
-    c->printGraph();
-    /*for(auto x: *P){
-        cout << "Vertex: " << x->id << " Heuristic: " << x->heuristic << endl;
-    }*/
+    
+    
     clock_t start = clock();
     c->BK(R,P,X);
     clock_t end = clock();
@@ -38,5 +36,6 @@ int main(int argc, char *argv[]){
     cout << "Tiempo de ejecucion: " << elapsed_time << " segundos" << endl;
     c->printClique();
     cout << endl;
+    cout << "Es Clique? " << c->isClique() << endl;
     return 0;
 }
