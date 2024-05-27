@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <set>
+#include <queue>
 #include <fstream>
 #include <sstream>
 #include "./Vertex.h"

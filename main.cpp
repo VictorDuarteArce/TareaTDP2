@@ -28,7 +28,6 @@ int main(int argc, char *argv[]){
         P->insert(v);
     }
     
-    
     clock_t start = clock();
     c->BK(R,P,X);
     clock_t end = clock();

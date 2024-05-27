@@ -269,5 +269,5 @@ bool Vertex::CompareByHeuristic(const Vertex *l, const Vertex* r){
     if(l == nullptr || r == nullptr){
         return false;
     }
-    return l->heuristic < r->heuristic;
+    return l->heuristic > r->heuristic;
 }

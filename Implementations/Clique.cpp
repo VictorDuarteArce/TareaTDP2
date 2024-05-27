@@ -84,7 +84,7 @@ void Clique::BK(set<Vertex*, bool(*)(const Vertex*, const Vertex*)> *R,
                 multiset<Vertex*, bool(*)(const Vertex*, const Vertex*)> *P, 
                 set<Vertex*, bool(*)(const Vertex*, const Vertex*)> *X){
     if(P->empty() && X->empty()){
-        cout << "Clique encontrada" << endl;
+        //cout << "Clique encontrada" << endl;
         if(R->size() > C.size()) this->C = *R;
         return;
     }
@@ -109,9 +109,8 @@ void Clique::BK(set<Vertex*, bool(*)(const Vertex*, const Vertex*)> *R,
         P1 = this->interseccion(P_new, vecinos); 
         set<Vertex*, bool(*)(const Vertex*, const Vertex*)>*
         X1 = this->interseccion(X_new, vecinos); 
-        if(R1->size() + P1->size() > C.size()){
-            if(this->getColors(R1, P1)> this->getColors(&C))
-                this->BK(R1,P1,X1);
+        if(R1->size() + P1->size() > C.size() && this->getColors(R1, P1) > this->getColors(&C)){
+            this->BK(R1,P1,X1);
         }
         auto it = find_if(P_new->begin(), P_new->end(), [v](Vertex* vertex) { 
             if(v == nullptr || vertex == nullptr) return false;

@@ -130,7 +130,7 @@ void Graph::agregarArista(int v, int w){
         VList[w]->getNeighbours()->insert(VList[v]);
     }
     VList[v]->setGrade(VList[v]->getGrade() + 1);
-    VList[w]->setGrade(VList[v]->getGrade() + 1);
+    VList[w]->setGrade(VList[w]->getGrade() + 1);
 }
 
 /*
@@ -142,28 +142,35 @@ void Graph::agregarArista(int v, int w){
         -void
 */
 void Graph::colorearGrafo(){
-    multiset<Vertex*, bool(*)(const Vertex*, const Vertex*)> vertices(Vertex::CompareBySaturation);
-    for(int i = 0; i < this->V; i++){
-        vertices.insert(this->VList[i]);
-    }
-    for(auto x: vertices){
-        cout << "Vertex: " << x->getId() << endl;
-        x->colorVertex();
-        x->actualizar();
+    priority_queue<Vertex*, vector<Vertex*>, bool(*)(const Vertex*, const Vertex*)> vertices(Vertex::CompareBySaturation);
+    vertices.push(this->VList[0]);
+    while(!vertices.empty()){
+        Vertex* x = vertices.top();
+        
+        if(x->getColor() == -1){
+            cout << "Coloreando: " << x->getId() << endl;
+            x->colorVertex();
+            x->actualizar();
+        }else{
+            while(!vertices.empty()){
+                vertices.pop();
+            }
+        }
         this->calculateSaturation();
         for(int i = 0; i < this->V; i++){
-            cout << "Saturation of " << this->VList[i]->getId() << ": " << this->VList[i]->getSaturation() << endl;
+            if(this->VList[i]->getColor() == -1){
+                vertices.push(this->VList[i]);
+            }
         }
-        cout << endl;
     }
-    for(auto x: vertices){
-        if(x->getColor() > this->colors){
-            this->colors = x->getColor();
+    for(int i = 0; i < this->V; i++){
+        if(VList[i]->getColor() > this->colors){
+            this->colors = VList[i]->getColor();
         }
     }
     this->colors++;
-    for(auto x: vertices){
-        x->calculateSaturation();
+    for(int i = 0; i < this->V; i++){
+        VList[i]->calculateSaturation();
     }
 }
 
@@ -180,7 +187,7 @@ void Graph::printGraph(){
     for(int i = 0; i < V; i++){
         cout << "head: " << i << 
         " Grade: " << VList[i]->getGrade() << 
-        " Color: " << VList[i]->getGrade() << 
+        " Color: " << VList[i]->getColor() << 
         " Saturation: " << VList[i]->getSaturation() <<endl;
         cout << "neighbours: ";
         VList[i]->printNeighbours();
