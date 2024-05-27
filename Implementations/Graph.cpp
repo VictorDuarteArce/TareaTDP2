@@ -147,9 +147,14 @@ void Graph::colorearGrafo(){
         vertices.insert(this->VList[i]);
     }
     for(auto x: vertices){
+        cout << "Vertex: " << x->getId() << endl;
         x->colorVertex();
         x->actualizar();
-        x->calculateSaturation();
+        this->calculateSaturation();
+        for(int i = 0; i < this->V; i++){
+            cout << "Saturation of " << this->VList[i]->getId() << ": " << this->VList[i]->getSaturation() << endl;
+        }
+        cout << endl;
     }
     for(auto x: vertices){
         if(x->getColor() > this->colors){
@@ -180,5 +185,16 @@ void Graph::printGraph(){
         cout << "neighbours: ";
         VList[i]->printNeighbours();
         cout << endl;
+    }
+}
+
+/*
+    Method: 
+
+*/
+
+void Graph::calculateSaturation(){
+    for(int i = 0; i < this->V; i++){
+        this->VList[i]->calculateSaturation();
     }
 }

@@ -24,6 +24,7 @@ class Graph{
         void agregarArista(int v, int w);
         void colorearGrafo();
         void printGraph();
+        void calculateSaturation();
 };
 
 #endif /* GRAPH_H */
