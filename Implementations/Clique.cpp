@@ -29,14 +29,7 @@ Clique::Clique(string filename){
     getline(file, line);
     istringstream iss(line);
     iss >> size;
-    this->graph = new Graph(size);
-    int i = 0;
-    while (getline(file, line)){
-        iss = istringstream(line);
-        int j = 0;
-        iss >> i >> j;
-        this->graph->agregarArista(i, j);
-    }
+    this->graph = new Graph(filename);
     file.close();
 }
 
@@ -116,7 +109,10 @@ void Clique::BK(set<Vertex*, bool(*)(const Vertex*, const Vertex*)> *R,
         P1 = this->interseccion(P_new, vecinos); 
         set<Vertex*, bool(*)(const Vertex*, const Vertex*)>*
         X1 = this->interseccion(X_new, vecinos); 
-        if(R1->size() + P1->size() > C.size()) this->BK(R1,P1,X1);
+        if(R1->size() + P1->size() > C.size()){
+            if(this->getColors(R1) + this->getColors(P1) > this->getColors(&C))
+                this->BK(R1,P1,X1);
+        }
         auto it = find_if(P_new->begin(), P_new->end(), [v](Vertex* vertex) { 
             if(v == nullptr || vertex == nullptr) return false;
             return v->getId() == vertex->getId();
@@ -261,4 +257,44 @@ bool Clique::isClique(){
         }
     }
     return true;
+}
+
+/*
+    Method: getColors
+    Description: Obtiene el número de colores
+    Parameters:
+        set<Vertex*, bool(*)(const Vertex*, const Vertex*)> *vertices: Conjunto de vértices
+    Returns: 
+        -int: Número de colores
+*/
+int Clique::getColors(set<Vertex*, bool(*)(const Vertex*, const Vertex*)> *vertices){
+    int colors = 0;
+    set<int> colorsCheck;
+    for(auto v: *vertices){
+        if(colorsCheck.find(v->getColor()) == colorsCheck.end()){
+            colorsCheck.insert(v->getColor());
+            colors++;
+        }
+    }
+    return colors;
+}
+
+/*
+    Method: getColors
+    Description: Obtiene el número de colores
+    Parameters:
+        multiset<Vertex*, bool(*)(const Vertex*, const Vertex*)> *vertices: Conjunto de vértices
+    Returns:
+        -int: Número de colores
+*/
+int Clique::getColors(multiset<Vertex*, bool(*)(const Vertex*, const Vertex*)> *vertices){
+    int colors = 0;
+    set<int> colorsCheck;
+    for(auto v: *vertices){
+        if(colorsCheck.find(v->getColor()) == colorsCheck.end()){
+            colorsCheck.insert(v->getColor());
+            colors++;
+        }
+    }
+    return colors;
 }

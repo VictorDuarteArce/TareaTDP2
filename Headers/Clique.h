@@ -35,7 +35,10 @@ class Clique {
         set<Vertex*, bool(*)(const Vertex*, const Vertex*)> *interseccion(
             set<Vertex*, bool(*)(const Vertex*, const Vertex*)> *P,
             multiset<Vertex*, bool(*)(const Vertex*, const Vertex*)> *vecinos);
-        vector<Vertex*>* resta(vector<Vertex*>* P, multiset<Vertex*, bool(*)(const Vertex*, const Vertex*)>*pivotNeighbours);
+        vector<Vertex*>* resta(vector<Vertex*>* P, 
+            multiset<Vertex*, bool(*)(const Vertex*, const Vertex*)>*pivotNeighbours);
+        int getColors(set<Vertex*, bool(*)(const Vertex*, const Vertex*)> *vertices);
+        int getColors(multiset<Vertex*, bool(*)(const Vertex*, const Vertex*)> *vertices);
         void printGraph();
         void printClique();
         bool isClique();
