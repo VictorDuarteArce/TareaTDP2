@@ -110,7 +110,7 @@ void Clique::BK(set<Vertex*, bool(*)(const Vertex*, const Vertex*)> *R,
         set<Vertex*, bool(*)(const Vertex*, const Vertex*)>*
         X1 = this->interseccion(X_new, vecinos); 
         if(R1->size() + P1->size() > C.size()){
-            if(this->getColors(R1) + this->getColors(P1) > this->getColors(&C))
+            if(this->getColors(R1, P1)> this->getColors(&C))
                 this->BK(R1,P1,X1);
         }
         auto it = find_if(P_new->begin(), P_new->end(), [v](Vertex* vertex) { 
@@ -291,6 +291,25 @@ int Clique::getColors(multiset<Vertex*, bool(*)(const Vertex*, const Vertex*)> *
     int colors = 0;
     set<int> colorsCheck;
     for(auto v: *vertices){
+        if(colorsCheck.find(v->getColor()) == colorsCheck.end()){
+            colorsCheck.insert(v->getColor());
+            colors++;
+        }
+    }
+    return colors;
+}
+
+int Clique::getColors(set<Vertex*, bool(*)(const Vertex*, const Vertex*)>*R,
+                    multiset<Vertex*, bool(*)(const Vertex*, const Vertex*)>*P){
+    int colors = 0;
+    set<int> colorsCheck;
+    for(auto v: *R){
+        if(colorsCheck.find(v->getColor()) == colorsCheck.end()){
+            colorsCheck.insert(v->getColor());
+            colors++;
+        }
+    }
+    for(auto v: *P){
         if(colorsCheck.find(v->getColor()) == colorsCheck.end()){
             colorsCheck.insert(v->getColor());
             colors++;

@@ -39,9 +39,12 @@ class Clique {
             multiset<Vertex*, bool(*)(const Vertex*, const Vertex*)>*pivotNeighbours);
         int getColors(set<Vertex*, bool(*)(const Vertex*, const Vertex*)> *vertices);
         int getColors(multiset<Vertex*, bool(*)(const Vertex*, const Vertex*)> *vertices);
+        int getColors(set<Vertex*, bool(*)(const Vertex*, const Vertex*)>*R,
+                    multiset<Vertex*, bool(*)(const Vertex*, const Vertex*)>*P);
         void printGraph();
         void printClique();
         bool isClique();
+
     
 };
 
