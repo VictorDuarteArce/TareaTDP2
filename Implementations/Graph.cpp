@@ -196,7 +196,12 @@ void Graph::printGraph(){
 }
 
 /*
-    Method: 
+    Method: calculateSaturation
+    Description: calcula el grado de saturación de todos los vértices del grafo
+    Parameters:
+        -void
+    Returns:
+        -void
 
 */
 
