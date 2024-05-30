@@ -148,7 +148,6 @@ void Graph::colorearGrafo(){
         Vertex* x = vertices.top();
         
         if(x->getColor() == -1){
-            cout << "Coloreando: " << x->getId() << endl;
             x->colorVertex();
             x->actualizar();
         }else{
